@@ -19,7 +19,7 @@ func toggleGPIO() {
     }
     defer chip.Close()
 
-    line, err := chip.RequestLine(22, gpiod.AsOutput(0)) // PIN_CH4     = 22
+    line, err := chip.RequestLine(25, gpiod.AsOutput(0)) // PIN_CH4     = 22
     if err != nil {
         fmt.Println(err)
         return
@@ -34,8 +34,10 @@ func toggleGPIO() {
 
     if val == 0 {
         line.SetValue(1)
+        fmt.Println("SANITY CHECK 1")
     } else {
         line.SetValue(0)
+        fmt.Println("SANITY CHECK 2")
     }
 }
 
@@ -48,9 +50,11 @@ func buttonHandler(w http.ResponseWriter, r *http.Request) {
     }
 }
 
+
 func main() {
+
     http.HandleFunc("/", buttonHandler)
-    err := http.ListenAndServe(":8000", nil)
+    err := http.ListenAndServe(":8080", nil)
     if err != nil {
         fmt.Println(err.Error())
     }
