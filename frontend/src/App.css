@@ -1,0 +1,89 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+body {
+  background: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+  max-width: 300px;
+}
+
+.logo {
+  max-width: 60%;
+  margin: 1rem auto 3rem auto;
+  display: block;
+}
+
+.neu-button {
+  background: #e0e5ec;
+  border: none;
+  padding: 15px 30px;
+  margin-bottom: 25px;
+  border-radius: 25px;
+  box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
+  font-size: 16px;
+  color: #3291ff;
+  /* BITE Blau */
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.3s ease-in-out, transform 0.1s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.neu-button:hover {
+  box-shadow: 4px 4px 10px #a3b1c6, -4px -4px 10px #ffffff;
+}
+
+.neu-button:active {
+  box-shadow: inset 2px 2px 5px #a3b1c6, inset -2px -2px 5px #ffffff;
+  transform: translateY(2px);
+}
