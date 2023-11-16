@@ -14,7 +14,7 @@ function App() {
   function toggleTor(torNummer) {
     const gateName = `open${torNummer}`; //war früher value in der Form
     const bodyData = {
-      secret: "ultra-geheim", //TODO?
+      secret: "ultra-geheim", //TODO? löschen?
       gate: gateName,
       userEmail: user ? user.email : null,
     };

@@ -15,7 +15,7 @@ var secretCheckKey = "ultra-geheim"
 var gateGpioMap = make(map[string]int)
 
 type jsonBody struct {
-	Secret string `json:"secret"`
+	Secret string `json:"secret"` // das hier löschen?
 	Gate   string `json:"gate"`
 	Email  string `json:"userEmail"` // kommt vom Frontend json, nur überprüfen ob mail string mit b-ite endet oder so
 }
