@@ -3,8 +3,7 @@ import { GoogleLogin } from 'react-google-login';
 import './App.css';
 
 function App() {
-  const [user, setUser] = useState(null); 
-
+  const [user, setUser] = useState(null);
   const responseGoogle = (response) => {
     if (response.profileObj) {
       setUser({
@@ -12,15 +11,13 @@ function App() {
       });
     }
   };
-
   function toggleTor(torNummer) {
     const gateName = `open${torNummer}`; //war früher value in der Form
     const bodyData = {
       secret: "ultra-geheim", //TODO?
       gate: gateName,
-      userEmail: user ? user.email : null, 
+      userEmail: user ? user.email : null,
     };
-
     fetch('http://127.0.0.1:8080/api/toggle', {
       method: 'POST',
       headers: {
@@ -29,22 +26,21 @@ function App() {
       body: JSON.stringify(bodyData),
     })
       .then(function (response) {
-          if (!response.ok) {
-              throw new Error('error');
-          }
+        if (!response.ok) {
+          throw new Error('error');
+        }
       })
       .catch(function (error) {
         console.error('Error:', error);
       });
   }
-
   return (
     <div className="container">
       {user ? (
         <div>Hallo, {user.email}</div>
       ) : (
         <GoogleLogin
-          clientId="client id????" 
+          clientId="client id????"
           buttonText="Google Login"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
@@ -55,39 +51,36 @@ function App() {
       )}
       <br></br>
       <br></br>
-        {user ? (
+      {user ? (
         <div>
           <img
-        className="logo"
-        src="https://www.b-ite.de/assets/images/bite-logo-9606eea416a94915.svg"
-        alt="BITE GmbH Logo"
-      />
-      <div className="button-container">
-        {[1, 2, 3, 4].map((torNummer) => (
-          <button
-            key={torNummer}
-            className="neu-button"
-            onClick={() => toggleTor(torNummer)}
-          >
-            <strong>Tor {torNummer}</strong>
-          </button>
-        ))}
-      </div>
+            className="logo"
+            src="https://www.b-ite.de/assets/images/bite-logo-9606eea416a94915.svg"
+            alt="BITE GmbH Logo"
+          />
+          <div className="button-container">
+            {[1, 2, 3, 4].map((torNummer) => (
+              <button
+                key={torNummer}
+                className="neu-button"
+                onClick={() => toggleTor(torNummer)}
+              >
+                <strong>Tor {torNummer}</strong>
+              </button>
+            ))}
+          </div>
         </div>
       ) : (
         <div>
           <img
-        className="logo"
-        src="https://www.b-ite.de/assets/images/bite-logo-9606eea416a94915.svg"
-        alt="BITE GmbH Logo"
-      />
+            className="logo"
+            src="https://www.b-ite.de/assets/images/bite-logo-9606eea416a94915.svg"
+            alt="BITE GmbH Logo"
+          />
           Du musst dich einloggen.
-          </div>
+        </div>
         // https://www.npmjs.com/package/react-google-login
       )}
-
-
-      
     </div>
   );
 }
