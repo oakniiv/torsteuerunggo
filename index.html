@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torsteuerung</title>
+    <style>
+        body {
+            background: #FFFFFF; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 300px;
+        }
+
+        .logo {
+            max-width: 60%; 
+            margin: 1rem auto 3rem auto;
+            display: block;
+        }
+
+        .neu-button {
+            background: #e0e5ec; 
+            border: none;
+            padding: 15px 30px; 
+            margin-bottom: 25px; 
+            border-radius: 25px; 
+            box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff; 
+            font-size: 16px;
+            color: #3291ff; /* BITE Blau */
+            cursor: pointer;
+            outline: none;
+            transition: box-shadow 0.3s ease-in-out, transform 0.1s;
+            width: 100%; 
+            box-sizing: border-box; 
+        }
+
+        .neu-button:hover {
+            box-shadow: 4px 4px 10px #a3b1c6, -4px -4px 10px #ffffff;
+        }
+
+        .neu-button:active {
+            box-shadow: inset 2px 2px 5px #a3b1c6, inset -2px -2px 5px #ffffff;
+            transform: translateY(2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="logo" src="https://getlogo.net/wp-content/uploads/2020/05/bite-gmbh-logo-vector.png" alt="BITE GmbH Logo">
+        <div class="button-container">
+            <button class="neu-button"><strong>Tor 1 Öffnen</strong></button>
+            <button class="neu-button"><strong>Tor 2 Öffnen</strong></button>
+            <button class="neu-button"><strong>Tor 3 Öffnen</strong></button>
+            <button class="neu-button"><strong>Tor 4 Öffnen</strong></button>
+        </div>
+    </div>
+</body>
+</html>
