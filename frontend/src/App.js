@@ -55,7 +55,9 @@ function App() {
       )}
       <br></br>
       <br></br>
-      <img
+        {user ? (
+        <div>
+          <img
         className="logo"
         src="https://www.b-ite.de/assets/images/bite-logo-9606eea416a94915.svg"
         alt="BITE GmbH Logo"
@@ -71,6 +73,14 @@ function App() {
           </button>
         ))}
       </div>
+        </div>
+      ) : (
+        <div>Du musst dich einloggen.</div>
+        // https://www.npmjs.com/package/react-google-login
+      )}
+
+
+      
     </div>
   );
 }
