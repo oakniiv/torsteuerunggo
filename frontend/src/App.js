@@ -37,7 +37,7 @@ function App() {
   return (
     <div className="container">
       {user ? (
-        <div>Hallo, {user.email}</div>
+        <div><h1>Hallo, {user.email}</h1></div>
       ) : (
         <GoogleLogin
           clientId="client id????"
