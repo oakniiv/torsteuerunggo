@@ -3,34 +3,71 @@ package main
 import (
 	"fmt"
 	"net/http"
-
-	//"github.com/warthog618/gpiod"
 	"os/exec"
+	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
-// PIN_CH1     = 25
-// PIN_CH2     = 24
-// PIN_CH3     = 23
-// PIN_CH4     = 22
+var secretCheckKey = "ultra-geheim"
+var gateGpioMap = make(map[string]int)
+
+type jsonBody struct {
+	Secret string `json:"secret"`
+	Gate   string `json:"gate"`
+}
 
 func toggleGPIO(pin int) error {
-	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin))
+	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //https://www.geeksforgeeks.org/fmt-sprintf-function-in-golang-with-examples/
 	return cmd.Run()
 }
 
-func buttonHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		toggleGPIO(25)
-		fmt.Fprintf(w, `<html><body><form action="/" method="post"><input type="submit" value="Toggle GPIO"></form></body></html>`)
-	} else {
-		fmt.Fprintf(w, `<html><body><form action="/" method="post"><input type="submit" value="Toggle GPIO"></form></body></html>`)
+func toggleGate(gate string) {
+	gpio, ok := gateGpioMap[gate]
+
+	if !ok {
+		return
 	}
+
+	toggleGPIO(gpio)
+	time.Sleep(time.Second * 1)
+	toggleGPIO(gpio)
 }
 
 func main() {
-	http.HandleFunc("/", buttonHandler)
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	e := echo.New()
+	e.HideBanner = true
+
+	gateGpioMap["open1"] = 22
+	gateGpioMap["open2"] = 25
+	gateGpioMap["open3"] = 24
+	gateGpioMap["open4"] = 23
+
+	e.GET("/", func(c echo.Context) error {
+		return c.HTML(http.StatusOK, ":)")
+	})
+
+	e.POST("/api/toggle", func(c echo.Context) error {
+		var payload = new(jsonBody)
+
+		payloadBindError := c.Bind(payload)
+
+		if payloadBindError != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, payloadBindError)
+		}
+
+		if payload.Secret != secretCheckKey {
+			return c.NoContent(http.StatusForbidden)
+		}
+
+		if payload.Gate == "" {
+			return c.NoContent(http.StatusBadRequest)
+		}
+
+		go toggleGate(payload.Gate)
+
+		return c.NoContent(http.StatusOK)
+	})
+
+	e.Logger.Fatal(e.Start(":8080"))
 }
