@@ -64,7 +64,7 @@ function App() {
               src="https://www.b-ite.de/assets/images/bite-logo-9606eea416a94915.svg"
               alt="BITE GmbH Logo"
             />
-        {user ? (
+        {!user ? (
           <div>
             <div className="button-container">
               {[1, 2, 3, 4].map((torNummer) => (
