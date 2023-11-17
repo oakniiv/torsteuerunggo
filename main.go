@@ -17,11 +17,11 @@ var gateGpioMap = make(map[string]int)
 type jsonBody struct {
 	Secret string `json:"secret"` // das hier löschen?
 	Gate   string `json:"gate"`
-	Email  string `json:"userEmail"` // kommt vom Frontend json, nur überprüfen ob mail string mit b-ite endet oder so
+	Email  string `json:"userEmail"` // kommt vom Frontend json, nur überprüfen ob mail string mit b-ite endet
 }
 
 func toggleGPIO(pin int) error {
-	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin))
+	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d
 	return cmd.Run()
 }
 
@@ -58,11 +58,11 @@ func main() {
 	})
 
 	e.POST("/api/toggle", func(c echo.Context) error {
-		fmt.Print("SANITY CHECK 1")
+		fmt.Print("step 1")
 		var payload = new(jsonBody)
-
+		fmt.Print("step 2")
 		payloadBindError := c.Bind(payload)
-
+		fmt.Print("step 3")
 		if payloadBindError != nil {
 			fmt.Print("payloadBindError")
 			return echo.NewHTTPError(http.StatusBadRequest, payloadBindError)
@@ -73,21 +73,22 @@ func main() {
 			return c.NoContent(http.StatusForbidden)
 		}
 
-		if !strings.HasSuffix(payload.Email, "@b-ite.de") { // bite.net auch?
+		if !strings.HasSuffix(payload.Email, "@b-ite.de") || !strings.HasSuffix(payload.Email, "@b-ite.com") || !strings.HasSuffix(payload.Email, "@b-ite.net") {
+			fmt.Print("NOT BITE")
 			return c.NoContent(http.StatusUnauthorized)
 		}
 
-		if !strings.HasSuffix(payload.Email, "@b-ite.com") {
-			return c.NoContent(http.StatusUnauthorized)
-		}
+		// if !strings.HasSuffix(payload.Email, "@b-ite.de") {
+		// 	return c.NoContent(http.StatusUnauthorized)
+		// }
 
 		if payload.Gate == "" {
 			fmt.Print("payload gate empty")
 			return c.NoContent(http.StatusBadRequest)
 		}
-		fmt.Print("SANITY CHECK 2")
+		fmt.Print("step 4")
 		go toggleGate(payload.Gate)
-		fmt.Print("SANITY CHECK 3")
+		fmt.Print("step 5")
 		return c.NoContent(http.StatusOK)
 	})
 
