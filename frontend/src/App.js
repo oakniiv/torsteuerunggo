@@ -80,7 +80,7 @@ function App() {
           </div>
         ) : (
           <div className="button-container">
-            <button className="neu-Button" onClick={login}>Einloggen mit Google</button>
+            <button className="neu-button" onClick={login}>Einloggen mit Google</button>
           </div>
         )}
         </div>

@@ -78,7 +78,7 @@ body {
   cursor: pointer;
   outline: none;
   transition: box-shadow 0.3s ease-in-out, transform 0.1s;
-  width: 100%;
+  width: 70%;
   box-sizing: border-box;
 }
 
