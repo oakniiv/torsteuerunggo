@@ -39,6 +39,9 @@
 }
 
 
+
+/* C U S T O M */
+
 body {
   background: #FFFFFF;
   display: flex;
@@ -47,17 +50,18 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: Arial, sans-serif;
-  color: #333;
+  color: #252525;
+
 }
 
 .container {
   text-align: center;
-  padding: 20px;
-  max-width: 300px;
+  padding: 1rem;
+  min-width: 80vw;
 }
 
 .logo {
-  max-width: 60%;
+  max-width: 15rem;
   margin: 1rem auto 3rem auto;
   display: block;
 }
@@ -66,12 +70,11 @@ body {
   background: #e0e5ec;
   border: none;
   padding: 15px 30px;
-  margin-bottom: 25px;
+  margin-bottom: 2rem;
   border-radius: 25px;
   box-shadow: 8px 8px 15px #a3b1c6, -8px -8px 15px #ffffff;
   font-size: 16px;
-  color: #3291ff;
-  /* BITE Blau */
+  color: #3291ff; /* BITE Blau */
   cursor: pointer;
   outline: none;
   transition: box-shadow 0.3s ease-in-out, transform 0.1s;
