@@ -54,7 +54,7 @@ function App() {
     return (
       <div className="container">
         {user ? (
-          <div><h1>Hallo, <br></br> testmail </h1></div> // if user eingeloggt
+          <div><h1>Hallo, <br></br> ${user.email} </h1></div> // if user eingeloggt
         ) : (
           <span></span> // alternative? return no element oder so?
         )}
