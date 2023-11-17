@@ -26,7 +26,7 @@ func toggleGPIO(pin int) error {
 }
 
 func toggleGate(gate string) {
-	fmt.Print("TOGGLE GATE ENTER")
+	
 	gpio, ok := gateGpioMap[gate]
 
 	if !ok {
@@ -34,10 +34,11 @@ func toggleGate(gate string) {
 		return
 	}
 
+	fmt.Print("BUTTON PRESS ")
 	toggleGPIO(gpio)
 	time.Sleep(time.Second * 1)
 	toggleGPIO(gpio)
-	fmt.Print("TOGGLEGATE EXIT")
+	fmt.Print("BUTTON RELASE ")
 }
 
 func main() {
@@ -58,18 +59,17 @@ func main() {
 	})
 
 	e.POST("/api/toggle", func(c echo.Context) error {
-		fmt.Print("step 1")
+
 		var payload = new(jsonBody)
-		fmt.Print("step 2")
+
 		payloadBindError := c.Bind(payload)
-		fmt.Print("step 3")
+
 		if payloadBindError != nil {
 			fmt.Print("payloadBindError")
 			return echo.NewHTTPError(http.StatusBadRequest, payloadBindError)
 		}
 
 		if payload.Secret != secretCheckKey {
-			fmt.Print("INSIDE SECRET")
 			return c.NoContent(http.StatusForbidden)
 		}
 
@@ -86,9 +86,9 @@ func main() {
 			fmt.Print("payload gate empty")
 			return c.NoContent(http.StatusBadRequest)
 		}
-		fmt.Print("step 4")
+
 		go toggleGate(payload.Gate)
-		fmt.Print("step 5")
+
 		return c.NoContent(http.StatusOK)
 	})
 
