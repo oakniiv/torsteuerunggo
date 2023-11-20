@@ -11,11 +11,9 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-var secretCheckKey = "ultra-geheim"
 var gateGpioMap = make(map[string]int)
 
 type jsonBody struct {
-	Secret string `json:"secret"` // das hier löschen?
 	Gate   string `json:"gate"`
 	Email  string `json:"userEmail"` // kommt vom Frontend json, nur überprüfen ob mail string mit b-ite endet
 }
@@ -67,10 +65,6 @@ func main() {
 		if payloadBindError != nil {
 			fmt.Print("payloadBindError")
 			return echo.NewHTTPError(http.StatusBadRequest, payloadBindError)
-		}
-
-		if payload.Secret != secretCheckKey {
-			return c.NoContent(http.StatusForbidden)
 		}
 
 		if !strings.HasSuffix(payload.Email, "@b-ite.de") && !strings.HasSuffix(payload.Email, "@b-ite.com") && !strings.HasSuffix(payload.Email, "@b-ite.net") {

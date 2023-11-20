@@ -30,7 +30,6 @@ function App() {
     function toggleTor(torNummer) {
       const gateName = `open${torNummer}`;
       const bodyData = {
-        secret: "ultra-geheim", // TODO? Löschen?
         gate: gateName,
         //userEmail: user ? user.email : null,
         userEmail: "localtest@b-ite.de",
