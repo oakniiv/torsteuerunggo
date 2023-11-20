@@ -26,7 +26,7 @@ func toggleGPIO(pin int) error {
 }
 
 func toggleGate(gate string) {
-	
+
 	gpio, ok := gateGpioMap[gate]
 
 	if !ok {
@@ -75,11 +75,11 @@ func main() {
 
 		if !strings.HasSuffix(payload.Email, "@b-ite.de") && !strings.HasSuffix(payload.Email, "@b-ite.com") && !strings.HasSuffix(payload.Email, "@b-ite.net") {
 			fmt.Print("NOT BITE")
-			return c.NoContent(http.StatusUnauthorized)
+			return c.NoContent(http.StatusForbidden)
 		}
 
 		// if !strings.HasSuffix(payload.Email, "@b-ite.de") {
-		// 	return c.NoContent(http.StatusUnauthorized)
+		// 	return c.NoContent(http.StatusForbidden)
 		// }
 
 		if payload.Gate == "" {
