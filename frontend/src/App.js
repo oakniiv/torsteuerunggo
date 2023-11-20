@@ -32,7 +32,8 @@ function App() {
       const bodyData = {
         secret: "ultra-geheim", // TODO? Löschen?
         gate: gateName,
-        userEmail: user ? user.email : null,
+        //userEmail: user ? user.email : null,
+        userEmail: "localtest@b-ite.de",
       };
       fetch('http://127.0.0.1:8080/api/toggle', {
         method: 'POST',
