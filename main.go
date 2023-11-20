@@ -21,12 +21,13 @@ type jsonBody struct {
 }
 
 func toggleGPIO(pin int) error {
-	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d
+	//cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d
+	cmd := exec.Command("gpio", "blink", fmt.Sprintf("%d", pin)) // 'toggle' macht probleme beim Neustart
 	return cmd.Run()
 }
 
 func toggleGate(gate string) {
-	
+
 	gpio, ok := gateGpioMap[gate]
 
 	if !ok {
