@@ -21,9 +21,25 @@ type jsonBody struct {
 }
 
 func toggleGPIO(pin int) error {
-	//cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d
-	cmd := exec.Command("gpio", "blink", fmt.Sprintf("%d", pin)) // 'toggle' macht probleme beim Neustart
-	return cmd.Run()
+    checkCmd := exec.Command("gpioget", "gpiochip0", fmt.Sprintf("%d", pin))
+    output, err := checkCmd.Output()
+    if err != nil {
+        return err
+    }
+
+    if strings.TrimSpace(string(output)) == "1" {
+        fmt.Println("pin auf 1 -> auf 0")
+        toggleCmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin))
+        err := toggleCmd.Run()
+        if err != nil {
+            return err
+        }
+    }
+
+    time.Sleep(time.Second * 1)
+
+    blinkCmd := exec.Command("gpio", "blink", fmt.Sprintf("%d", pin)) // toggle macht probleme beim neustart
+    return blinkCmd.Run()
 }
 
 func toggleGate(gate string) {
