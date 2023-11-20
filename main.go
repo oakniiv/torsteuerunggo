@@ -21,25 +21,25 @@ type jsonBody struct {
 }
 
 func toggleGPIO(pin int) error {
-    checkCmd := exec.Command("gpioget", "gpiochip0", fmt.Sprintf("%d", pin))
-    output, err := checkCmd.Output()
-    if err != nil {
-        return err
-    }
+	checkCmd := exec.Command("gpioget", "gpiochip0", fmt.Sprintf("%d", pin))
+	output, err := checkCmd.Output()
+	if err != nil {
+		return err
+	}
 
-    if strings.TrimSpace(string(output)) == "1" {
-        fmt.Println("pin auf 1 -> auf 0")
-        toggleCmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin))
-        err := toggleCmd.Run()
-        if err != nil {
-            return err
-        }
-    }
+	if strings.TrimSpace(string(output)) == "1" { //falls die app direkt beim Blink abstürzt könnte der Pin auf 1 bleiben
+		fmt.Println("pin auf 1 -> auf 0")
+		toggleCmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) // funktioniert mit gpioset nicht warum auch immer
+		err := toggleCmd.Run()
+		if err != nil {
+			return err
+		}
+	}
 
-    time.Sleep(time.Second * 1)
+	time.Sleep(time.Second * 1)
 
-    blinkCmd := exec.Command("gpio", "blink", fmt.Sprintf("%d", pin)) // toggle macht probleme beim neustart
-    return blinkCmd.Run()
+	blinkCmd := exec.Command("gpio", "blink", fmt.Sprintf("%d", pin)) // toggle macht probleme beim neustart
+	return blinkCmd.Run()
 }
 
 func toggleGate(gate string) {
