@@ -14,11 +14,12 @@ import (
 var gateGpioMap = make(map[string]int)
 
 type jsonBody struct {
-	Gate   string `json:"gate"`
-	Email  string `json:"userEmail"` // kommt vom Frontend json, nur überprüfen ob mail string mit b-ite endet
+	Gate  string `json:"gate"`
+	Email string `json:"userEmail"` // kommt vom Frontend json, nur überprüfen ob mail string mit b-ite endet
 }
 
 func toggleGPIO(pin int) error {
+	//todo: toggle funktioniert nach dem Neustart nicht, erstmal 'blink' -> break command -> überprüfen ob PIN auf 1 -> wenn ja dann toggle damit auf 0
 	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d // toggle macht probleme beim Neustart TODO!
 	return cmd.Run()
 }
@@ -71,10 +72,6 @@ func main() {
 			fmt.Print("NOT BITE")
 			return c.NoContent(http.StatusForbidden)
 		}
-
-		// if !strings.HasSuffix(payload.Email, "@b-ite.de") {
-		// 	return c.NoContent(http.StatusForbidden)
-		// }
 
 		if payload.Gate == "" {
 			fmt.Print("payload gate empty")
