@@ -18,8 +18,16 @@ type jsonBody struct {
 	Email string `json:"userEmail"` // kommt vom Frontend json, nur überprüfen ob mail string mit b-ite endet
 }
 
+func initialiseGPIO() error {
+
+	cmd := exec.Command("gpio mode 22 OUT && gpio mode 23 OUT && gpio mode 24 OUT  && gpio mode 25 OUT") //fix für toggle nach dem Neustart
+	return cmd.Run()
+}
+
 func toggleGPIO(pin int) error {
 	//todo: toggle funktioniert nach dem Neustart nicht, erstmal 'blink' -> break command -> überprüfen ob PIN auf 1 -> wenn ja dann toggle damit auf 0
+	initialiseGPIO()
+
 	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d
 	return cmd.Run()
 }
