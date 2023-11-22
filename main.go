@@ -24,7 +24,7 @@ func initialiseGPIO() error {
 	return cmd.Run()
 }
 
-//TODO: Initialisieren erst nach Neustart?
+//TODO: Initialisieren nur nach Neustart?
 
 func toggleGPIO(pin int) error {
 	initialiseGPIO()
