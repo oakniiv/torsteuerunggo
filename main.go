@@ -20,7 +20,7 @@ type jsonBody struct {
 
 func initialiseGPIO() error {
 
-	cmd := exec.Command("gpio mode 22 OUT && gpio mode 23 OUT && gpio mode 24 OUT  && gpio mode 25 OUT") //fix für toggle nach dem Neustart
+	cmd := exec.Command("gpio", "mode", "22", "OUT", "&&", "gpio", "mode", "23", "OUT", "&&", "gpio", "mode", "24", "OUT", "&&", "gpio", "mode", "25", "OUT") //fix für toggle nach dem Neustart
 	return cmd.Run()
 }
 
