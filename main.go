@@ -20,7 +20,7 @@ type jsonBody struct {
 
 func toggleGPIO(pin int) error {
 	//todo: toggle funktioniert nach dem Neustart nicht, erstmal 'blink' -> break command -> überprüfen ob PIN auf 1 -> wenn ja dann toggle damit auf 0
-	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d // toggle macht probleme beim Neustart TODO!
+	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d
 	return cmd.Run()
 }
 
