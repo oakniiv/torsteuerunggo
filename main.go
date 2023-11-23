@@ -18,17 +18,15 @@ type jsonBody struct {
 	Email string `json:"userEmail"` // kommt vom Frontend json, nur überprüfen ob mail string mit b-ite endet
 }
 
-func initialiseGPIO() error {
+//TODO: MODE OUT nur nach Neustart?
 
-	cmd := exec.Command("gpio", "mode", "22", "OUT", "&&", "gpio", "mode", "23", "OUT", "&&", "gpio", "mode", "24", "OUT", "&&", "gpio", "mode", "25", "OUT") //fix für toggle nach dem Neustart
+func initGPIO(pin int) error {
+
+	cmd := exec.Command("gpio", "mode", fmt.Sprintf("%d", pin), "OUT") //int, int8 etc.: %d
 	return cmd.Run()
 }
 
-//TODO: Initialisieren nur nach Neustart?
-
 func toggleGPIO(pin int) error {
-	initialiseGPIO()
-
 	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d
 	return cmd.Run()
 }
@@ -43,8 +41,10 @@ func toggleGate(gate string) {
 	}
 
 	fmt.Print("BUTTON PRESS ")
-	toggleGPIO(gpio)
+	initGPIO(gpio)
 	time.Sleep(time.Second * 1)
+	toggleGPIO(gpio)
+	time.Sleep(time.Second * 2) //2s, länger draufbleiben 1s zu wenig irl
 	toggleGPIO(gpio)
 	fmt.Print("BUTTON RELASE ")
 }
