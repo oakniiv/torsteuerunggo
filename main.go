@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os/exec"
 	"strings"
@@ -26,9 +27,34 @@ func initGPIO(pin int) error {
 	return cmd.Run()
 }
 
+// 'gpio toggle' macht nur probleme
 func toggleGPIO(pin int) error {
-	cmd := exec.Command("gpio", "toggle", fmt.Sprintf("%d", pin)) //int, int8 etc.: %d
-	return cmd.Run()
+
+	out, err := exec.Command("gpio", "read", fmt.Sprintf("%d", pin)).Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	state := string(out)
+
+	fmt.Printf("ZUSTAND: %s\n", state)
+
+	if state == "1\n" {
+		err := exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "0").Run()
+		if err != nil {
+			return err
+		}
+
+		time.Sleep(time.Second * 2)
+
+		err = exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "1").Run()
+		if err != nil {
+			return err
+		}
+	} else {
+		fmt.Println("ist schon aus")
+	}
+
+	return nil //todo?
 }
 
 func toggleGate(gate string) {
@@ -43,8 +69,6 @@ func toggleGate(gate string) {
 	fmt.Print("BUTTON PRESS ")
 	initGPIO(gpio)
 	time.Sleep(time.Second * 1)
-	toggleGPIO(gpio)
-	time.Sleep(time.Second * 2) //2s, länger draufbleiben 1s zu wenig irl
 	toggleGPIO(gpio)
 	fmt.Print("BUTTON RELASE ")
 }
