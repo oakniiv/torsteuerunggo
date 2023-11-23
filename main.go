@@ -38,20 +38,28 @@ func toggleGPIO(pin int) error {
 
 	fmt.Printf("ZUSTAND: %s\n", state)
 
-	if state == "1\n" {
-		err := exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "0").Run()
+	if state == "1\n" { //AUS
+		time.Sleep(time.Second * 1)
+		err := exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "0").Run() //EIN
 		if err != nil {
 			return err
 		}
 
 		time.Sleep(time.Second * 2)
 
-		err = exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "1").Run()
+		err = exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "1").Run() //AUS
 		if err != nil {
 			return err
 		}
-	} else {
-		fmt.Println("ist schon aus")
+		time.Sleep(time.Second * 1)
+
+	} else { //WAR SCHON EIN, SOLLTE NICHT PASSIEREN
+		time.Sleep(time.Second * 1)
+		err = exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "1").Run() //AUS
+		if err != nil {
+			return err
+		}
+		time.Sleep(time.Second * 1)
 	}
 
 	return nil //todo?
@@ -68,7 +76,6 @@ func toggleGate(gate string) {
 
 	fmt.Print("BUTTON PRESS ")
 	initGPIO(gpio)
-	time.Sleep(time.Second * 1)
 	toggleGPIO(gpio)
 	fmt.Print("BUTTON RELASE ")
 }
