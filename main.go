@@ -39,7 +39,9 @@ func toggleGPIO(pin int) error {
 	fmt.Printf("ZUSTAND: %s\n", state)
 
 	if state == "1\n" { //AUS
+
 		time.Sleep(time.Second * 1)
+		fmt.Printf("BUTTON PRESS \n")
 		err := exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "0").Run() //EIN
 		if err != nil {
 			return err
@@ -51,9 +53,12 @@ func toggleGPIO(pin int) error {
 		if err != nil {
 			return err
 		}
-		time.Sleep(time.Second * 1)
+		fmt.Printf("BUTTON RELEASE \n")
+		time.Sleep(time.Second * 10)
+		
 
-	} else { //WAR SCHON EIN, SOLLTE NICHT PASSIEREN
+	} else {
+		fmt.Printf("WAR SCHON EIN, SOLLTE NICHT PASSIEREN \n")
 		time.Sleep(time.Second * 1)
 		err = exec.Command("gpio", "write", fmt.Sprintf("%d", pin), "1").Run() //AUS
 		if err != nil {
@@ -70,14 +75,12 @@ func toggleGate(gate string) {
 	gpio, ok := gateGpioMap[gate]
 
 	if !ok {
-		fmt.Print("NOT OK")
+		fmt.Print("NOT OK \n")
 		return
 	}
 
-	fmt.Print("BUTTON PRESS ")
 	initGPIO(gpio)
 	toggleGPIO(gpio)
-	fmt.Print("BUTTON RELASE ")
 }
 
 func main() {
@@ -104,17 +107,17 @@ func main() {
 		payloadBindError := c.Bind(payload)
 
 		if payloadBindError != nil {
-			fmt.Print("payloadBindError")
+			fmt.Print("payloadBindError \n")
 			return echo.NewHTTPError(http.StatusBadRequest, payloadBindError)
 		}
 
 		if !strings.HasSuffix(payload.Email, "@b-ite.de") && !strings.HasSuffix(payload.Email, "@b-ite.com") && !strings.HasSuffix(payload.Email, "@b-ite.net") {
-			fmt.Print("NOT BITE")
+			fmt.Print("NOT BITE \n")
 			return c.NoContent(http.StatusForbidden)
 		}
 
 		if payload.Gate == "" {
-			fmt.Print("payload gate empty")
+			fmt.Print("payload gate empty \n")
 			return c.NoContent(http.StatusBadRequest)
 		}
 
